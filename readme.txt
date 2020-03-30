@@ -1,10 +1,11 @@
 # Creating project in Firebase
 	Firebase main screen -> create project
 
-# Adding android to the application
+# Connecting Android in the application
+
 	Click on the android icon to add an android app
 	app -> android -> src -> main -> AndroidManifest.xml -> copy package -> register app
-	Download json and copy inside the android folder -> project app
+	Download json and copy inside the android folder -> project /android/app
 	Go back to the console -> next -> to add the firebase SDK (below)
 
 		build.gradle on project level
@@ -50,14 +51,18 @@
 
 	add on pubspec.yaml
 	dependencies:
-	  cloud_firestore:
+	  firebase_auth:
+  	  google_sign_in:
+      cloud_firestore:
 
-	in your IDE go to ios → Runner → Info.plist. Here, you have to add a code snippet. Just copy & paste it inside the Info.plist file and save it https://pub.dev/packages/google_sign_in#ios-integration
+	in your IDE go to ios → Runner → Info.plist. Here, you have to add a code snippet inside <dict>. Just copy & paste it inside the Info.plist file and save it https://pub.dev/packages/google_sign_in#ios-integration
 
 	Here, you will see that there is a TODO written to replace the value within the string tag with REVERSED_CLIENT_ID. You will find the REVERSED_CLIENT_ID in the file GoogleService-Info.plist
 
 
-# Final setup google sign in
+# Google sign in setup
+
+- OAuth
 
 	Go here https://console.developers.google.com/apis/credentials/consent
 
@@ -79,19 +84,24 @@
 
 	Here, you have to enter the project name and support email, and Enable this by clicking the toggle on the top-right corner. Then, click on Save.
 
-# Extra setup
+- SHA1
 
 	Add your android debugkey SHA-1 fingerprints in your firebase console and updated google-services.json file after adding them
-
-	keytool -list -v \
-	-alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
+		debug:
+			keytool -list -v -keystore %USERPATH%.android/debug.keystore -alias androiddebugkey -storepass android -keypass android 
+		release:
+			keytool -list -v -keystore {keystore_name} -alias {alias_name}
 
 	In your Project settings, go to the Your apps card.
 	Select the Firebase Android app to which you want to add a SHA fingerprint.
 	Click Add fingerprint.
 	Enter or paste the SHA fingerprint, then click Save.
 
-#Erros comuns
+- Update json
+	
+	Go to your android app on Firebase, in the general settings tab and download the latest JSON configuration file to copy again inside project /android/app
+
+#Common error messages
 
 # build.gradle GradleException not found
 
@@ -101,14 +111,20 @@
 
 # flutter the number of method references in a .dex file cannot exceed 64k
 
- 1.module/build.gradle
+ 1.build.gradle on app level
  	defaultConfig {
         ...
         // Enabling multidex support.
         multiDexEnabled true
     }
- 2. 
+ 2.
 	dependencies {
 	  implementation 'com.android.support:multidex:1.0.3'  //with support libraries
 	  //implementation 'androidx.multidex:multidex:2.0.1'  //with androidx libraries
 	}
+
+# Tips
+
+If using Android Studio, these commands help: 	
+												File -> Invalidate cache and restart
+												Tools -> Flutter -> Flutter clean
