@@ -1,13 +1,13 @@
-# Criando projeto no firebase
-	tela principal do firebase -> criar projeto
+# Creating project in Firebase
+	Firebase main screen -> create project
 
-# Adicionando android na aplicação
-	clicar no ícone android para adicionar um app android
-	app -> android -> src -> main -> AndroidManifest.xml -> copiar package -> registrar app
-	faz download do json e copia dentro da pasta android -> app do projeto
-	volte pro console -> próximo -> para adicionar o SDK do firebase (abaixo)
+# Adding android to the application
+	Click on the android icon to add an android app
+	app -> android -> src -> main -> AndroidManifest.xml -> copy package -> register app
+	Download json and copy inside the android folder -> project app
+	Go back to the console -> next -> to add the firebase SDK (below)
 
-		build.gradle no nível do projeto
+		build.gradle on project level
 
 			buildscript {
 			  repositories {
@@ -30,7 +30,7 @@
 			  }
 			}
 
-		build.gradle no nível do app
+		build.gradle on app level
 
 			apply plugin: 'com.android.application'
 			apply plugin: 'com.google.gms.google-services' // Add this line
@@ -41,19 +41,57 @@
 			}
 
 
-# Conectando IOS na aplicação
+# Connecting IOS in the application
 
-	console -> adicionar app -> IOS
-	app -> android -> src -> main -> AndroidManifest.xml -> copiar package -> registrar app
-	faz download do GoogleService-info.plist e copia dentro da pasta ios -> runner
-	volte pro console -> próximo -> próximo
+	console -> add app -> IOS
+	app -> android -> src -> main -> AndroidManifest.xml -> copy package -> register app
+	download GoogleService-info.plist and copy it into the ios -> runner folder
+	go back to the console -> next -> next
 
-	adicionar no pubspec.yaml
+	add on pubspec.yaml
 	dependencies:
 	  cloud_firestore:
 
+	in your IDE go to ios → Runner → Info.plist. Here, you have to add a code snippet. Just copy & paste it inside the Info.plist file and save it https://pub.dev/packages/google_sign_in#ios-integration
 
-Erros comuns
+	Here, you will see that there is a TODO written to replace the value within the string tag with REVERSED_CLIENT_ID. You will find the REVERSED_CLIENT_ID in the file GoogleService-Info.plist
+
+
+# Final setup google sign in
+
+	Go here https://console.developers.google.com/apis/credentials/consent
+
+	Make sure you are signed in with the same account with which you have created the Firebase project.
+
+	Also, make sure that on the top-left corner your project is selected for which you are filling this consent
+
+	Go to Credentials → OAuth consent screen tab and start filling the form.
+
+	Enter Application name, Application logo & Support email.
+
+	Then, scroll down and fill the Application Homepage link, Application Privacy Policy link and Application Terms of Services link.
+
+	In all these places, you have to enter the same link starting with http://, then your app domain name which is inside "authorized domain". Click on Save.
+
+	Go back to Firebase console in Authentication Page → Users tab and click on Set up sign-in method.
+
+	In the sign-in providers page, edit Google sign-in.
+
+	Here, you have to enter the project name and support email, and Enable this by clicking the toggle on the top-right corner. Then, click on Save.
+
+# Extra setup
+
+	Add your android debugkey SHA-1 fingerprints in your firebase console and updated google-services.json file after adding them
+
+	keytool -list -v \
+	-alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
+
+	In your Project settings, go to the Your apps card.
+	Select the Firebase Android app to which you want to add a SHA fingerprint.
+	Click Add fingerprint.
+	Enter or paste the SHA fingerprint, then click Save.
+
+#Erros comuns
 
 # build.gradle GradleException not found
 
